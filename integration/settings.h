@@ -31,12 +31,11 @@ namespace settings {
 };
 
 struct BAR_Blockade {
-    BAR_Blockade(double x, double y);
     double I, II;
 };
 
-//TODO: is it really work???
-extern BAR_Blockade Bblocked(0, 0);
+
+extern const double Bblocked[];
 
 extern const double x0[];
 

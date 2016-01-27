@@ -19,27 +19,26 @@
 #include <assert.h>
 
 #include "sa.h"
+     int cabuf(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Buf *, struct Buf *);
+     int srflux(struct State *, struct State *, REAL, struct Cpar *, struct Js *);
 
-extern int  cabuf(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Buf *, struct Buf *);
-extern int  srflux(struct State *, struct State *, REAL, struct Cpar *, struct Js *);
+     REAL caconc(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Is *);
+     REAL naconc(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Is *);
 
-extern REAL caconc(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Is *);
-extern REAL naconc(struct State *, struct State *, REAL, struct Cpar *, struct Js *, struct Is *);
-
-extern REAL ibgna(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ibgcl(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ibgca(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ical(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL iclca(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL iki(REAL time, struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ikp(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ikr(REAL time, struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL iks(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ina(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL inak(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL incx(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ipk(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
-extern REAL ito(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ibgna(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ibgcl(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ibgca(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ical(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL iclca(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL iki(REAL time, struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ikp(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ikr(REAL time, struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL iks(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ina(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL inak(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL incx(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ipk(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
+     REAL ito(struct State *, struct State *, REAL, struct Cpar *, struct Is *);
 
 bool EPI = true;
 
@@ -192,7 +191,6 @@ void printState(REAL time, struct State *S, struct Is *I)
 
 void printCurrents(REAL time, struct Is *I)
 {
- //   printf ("%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\t%e\n", time, I->INaKJunc, I->INaKSl, I->INaJunc, I->INaSl, I->INaBkJunc, I->INaBkSl, I->ICaBkJunc, I->ICaBkSl, I->ICaJunc, I->ICaSl, I->ICaK, I->ICaNaJunc, I->ICaNaSl, I->IpCaJunc, I->IpCaSl, I->IncxJunc, I->IncxSl, I->ItoSlow, I->ItoFast, I->Ikr, I->Iks, I->Iki, I->Ikp, I->IClCa, I->IBgCl);
     fprintf(inafile,"%e %e\n", time, I->INaJunc + I->INaSl);
     fprintf(icalfile, "%e %e\n", time, I->ICaJunc + I->ICaSl + I->ICaK + I->ICaNaJunc + I->ICaNaSl);
     fprintf(ICaNa,"%e %e\n",time, I->ICaNaJunc + I->ICaNaSl);
@@ -221,9 +219,6 @@ void printCurrents(REAL time, struct Is *I)
     fprintf(ItoSlow,"%e %e\n",time, I->ItoSlow);
     fprintf(Iepi,"%e %e\n",time, 0.88*I->ItoFast + 0.12*I->ItoSlow);
     fprintf(Iendo,"%e %e\n",time, 0.036*I->ItoFast + 0.964*I->ItoSlow);
-
-
-    //fprintf(,"%e %e\n",time, I->);
 }
 
 void printBuffers(REAL time, struct Buf *B)
@@ -414,7 +409,7 @@ int main(int argc, char **argv)
     stateInitialisation();
     bufferInitialisation();
     
-    for (time = 0.0; time <= 100000.0; time = time + timeStep)
+    for (time = 0.0; time <= 1000.0; time = time + timeStep)
     {
 
         printf("%e\n",time);

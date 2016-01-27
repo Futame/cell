@@ -1,6 +1,0 @@
-Компиляция
-sudo gcc -o main main.c ina.c ical.c ibg.c cabuf.c caconc.c iclca.c iki.c ikp.c ikr.c iks.c inak.c incx.c ipk.c ito.c naconc.c srflux.c -lm
-
-Запуск
-./main
-

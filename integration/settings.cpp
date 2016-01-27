@@ -107,9 +107,6 @@ const double x0[] = {-8.7491E01, 1.3394E-02, 2.3413E-02, 2.3413E-02, 6.8659E+00,
 
 };
 
-BAR_Blockade::BAR_Blockade(double x, double y) {
-    I = x;
-    II = y;
-}
 
-BAR_Blockade Bblocked = BAR_Blockade(0,0);
+
+const double Bblocked[] = {0,0};

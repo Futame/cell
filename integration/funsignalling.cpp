@@ -3,7 +3,6 @@
 // Checked by Zoya Kiyan on 20.10.15
 //
 
-#include "assert.h"
 #include "funsignalling.h"
 
 const double L = ISO;
@@ -424,7 +423,6 @@ LigRecepGprot Mod_LigRecepGprot(double R_tot, double R_pkap_tot, double R_grkp_t
     double c = -R_np_tot * sc.K_b1_c * sc.K_b1_h;
 
     double Rf = (-b + sqrt(b * b - 4 * x * c)) / (2 * x);
-    iscomplex(b * b - 4 * x * c);
     double Gf = G_abg / (1 + Rf / sc.K_b1_c + L * Rf / (sc.K_b1_c * sc.K_b1_h));
     double LR = (L * Rf) / sc.K_b1_l;
     ligRecepGprot.RG = (Rf * Gf) / sc.K_b1_c;
@@ -434,8 +432,8 @@ LigRecepGprot Mod_LigRecepGprot(double R_tot, double R_pkap_tot, double R_grkp_t
     ligRecepGprot.dR_grkp_tot =
             sc.rate_bds * sc.k_b1_grkp * GRK * (LR + ligRecepGprot.LRG) - sc.rate_bds * sc.k_b1_grkdp * R_grkp_tot;
 
-    ligRecepGprot.RG = ligRecepGprot.RG + Bblocked.I * ligRecepGprot.LRG;
-    ligRecepGprot.LRG = ligRecepGprot.LRG * (1 - Bblocked.I);
+    ligRecepGprot.RG = ligRecepGprot.RG + Bblocked[1] * ligRecepGprot.LRG;
+    ligRecepGprot.LRG = ligRecepGprot.LRG * (1 - Bblocked[1]);
 
     return ligRecepGprot;
 }
@@ -455,7 +453,6 @@ LigRecepGprotWithBeta2 Mod_LigRecepGprotWithBeta2(double Rb1_tot, double Rb1_pka
     double c = -Rb2_pkap_tot * KA2 * KF2;
 
     double Rb2_pkap_f = (-b + sqrt(b * b - 4 * x * c)) / (2 * x);
-    iscomplex(b * b - 4 * x * c);
     double Gi_f = Gi_abg / (1 + Rb2_pkap_f / KA2 + L * Rb2_pkap_f / (KA2 * KF2));
     lRGwithBeta2.Rb2Gi = Rb2_pkap_f * Gi_f / KA2;
     lRGwithBeta2.LRb2Gi = L * lRGwithBeta2.Rb2Gi / KF2;
@@ -498,7 +495,6 @@ LigRecepGprotWithBeta2 Mod_LigRecepGprotWithBeta2(double Rb1_tot, double Rb1_pka
                sqrt(-(b1 * b1 * b1 * d1 / 27.0) - (b1 * b1 * c1 * c1 / 108.0) + (b1 * c1 * d1 / 6.0) + (c1 * c1 * c1 / 27.0) + (d1 * d1 / 4.0))),
               (1 / 3.0));
     double Gs_f = std::abs((phi - (1.0 / phi) * ((c / 3.0) - (b * b / 9.0)) - (b / 3.0)));
-    debug(Gs_f);
     double Rb1_f = Rb1_np_tot / (1 + L / KL1 + (1 / KC1 + L / (KC1 * KH1)) * Gs_f);
     double Rb2_f = Rb2_np_tot / (1 + L / KL2 + (1 / KC2 + L / (KC2 * KH2)) * Gs_f);
 
@@ -638,7 +634,6 @@ double Mod_PP1_Inhibition(Concentration y) {
             (sc.kbI1p * sc.PP2A_CYT * y.Inhib1_P_CYT) / (sc.KmI1dp + y.Inhib1_P_CYT);
     pp1 = 0.5 * sqrt(pow((sc.KI1 + y.Inhib1_P_CYT - sc.PP1_tot_CYT), 2) + 4 * sc.PP1_tot_CYT * sc.KI1) +
           0.5 * sc.PP1_tot_CYT - 0.5 * sc.KI1 - 0.5 * y.Inhib1_P_CYT;
-    iscomplex(pow((sc.KI1 + y.Inhib1_P_CYT - sc.PP1_tot_CYT), 2) + 4 * sc.PP1_tot_CYT * sc.KI1);
 
     return pp1;
 }
