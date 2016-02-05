@@ -37,20 +37,11 @@ REAL iki(REAL time,struct State *S, struct State *Sn, REAL ht, struct Cpar *C, s
         Kiss = 0;
     }
     else {
-        //aki = 1.02/(1+exp(0.2385*(V_m-ek-59.215)));
         aKi = 1.02 / (1.0 + exp(0.2385 * (S->E - EK - 59.215)));
-
-        //bki = (0.49124*exp(0.08032*(V_m + 5.476 - ek)) + exp(0.06175 * (V_m - ek - 594.31{mV}))) / (1 + exp(-0.5143 * (V_m - ek + 4.753{mV})));
         bKi = (0.49214 * exp(0.08032 * (S->E - EK + 5.476)) + exp(0.06175 * (S->E - EK - 594.31))) /
               (1.0 + exp(-0.5143 * (S->E - EK + 4.753)));
-        //kiss = aki/(aki + bki);
         Kiss = aKi / (aKi + bKi);
     }
-    fprintf(aki, "%e %e\n", time, aKi);
-    fprintf(kiss, "%e %e\n", time, Kiss);
-    fprintf(bki, "%e %e\n", time, bKi);
-
-    //I_ki = 0.35 * sqrt(Ko/5.4) * kiss * (V_m - ek);
         I->Iki = 0.35 * sqrt(Ko / 5.4) * Kiss * (S->E - EK);
 
     return I->Iki;

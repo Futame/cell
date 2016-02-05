@@ -314,30 +314,10 @@ void openFiles(){
     // = fopen("tests/.txt","w");
 
 }
-
+/*
 void closeFiles(){
-    fclose(Dss);
-    fclose(Fss);
-    fclose(Td);
-    fclose(Tf);
-    fclose(icaj);
-    fclose(icas);
-    fclose(inaj);
-    fclose(inas);
-    fclose(ik);
 
-    fclose(aki);
-    fclose(bki);
-    fclose(kiss);
-
-
-    fclose(gkrf);
-    fclose(rkrf);
-    fclose(tauxkr);
-    fclose(xkrf);
-    fclose(xkr1f);
-    fclose(xrssf);
-
+     printf("abacaba1\n");
     fclose(Ikl);
     fclose(Iks);
     fclose(icalfile);
@@ -345,7 +325,7 @@ void closeFiles(){
     fclose(Iepi);
     fclose(ItoSlow);
     fclose(ItoFast);
-
+    printf("abacaba2\n");
     fclose(IncxJuncPlusIncxSl);
     fclose(ICaNa);
     fclose(INaK);
@@ -355,7 +335,6 @@ void closeFiles(){
     fclose(IBgCl);
     fclose(IClCa);
     fclose(Ikp);
- //   fclose(Ikr);
     fclose(ICaTotSl);
     fclose(ICaTotJunc);
     fclose(INaTotJunc);
@@ -396,7 +375,88 @@ void closeFiles(){
     fclose(NaBj);
     fclose(NaBSl);
 }
+*/
 
+//TODO: process finished with exit code 139, when I try "fclose(smth)"
+void closeFiles(){
+/*    fclose(Iks);
+    fclose(Ikl);
+    fclose(icalfile);
+    fclose(IncxJuncPlusIncxSl);
+    fclose(E);
+    fclose(m);
+    fclose(h);
+    fclose(j);
+    fclose(xkr);
+    fclose(xks);
+    fclose(xtos);
+    fclose(ytos);
+    fclose(xtof);
+    fclose(ytof);
+    fclose(d);
+    fclose(f);
+    fclose(fCaBJunc);
+    fclose(fCaBSl);
+    fclose(Csqnb);
+
+    fclose(RyRr);
+    fclose(RyRo);
+    fclose(RyRi);
+    fclose(NaJ);
+    fclose(NaSl);
+    fclose(Nai);
+    fclose(CaJ);
+    fclose(CaSl);
+    fclose(Cai);
+    fclose(CaSR);
+    fclose(NaBj);
+    fclose(NaBSl);
+
+    fclose(INaBkJunc);
+    fclose(INaBkSl);
+    fclose(ICaBkJunc);
+    fclose(ICaBkSl);
+    fclose(ICaJunc);
+    fclose(ICaK);
+    fclose(ICaNaJunc);
+    fclose(ICaNaSl);
+    fclose(INaTotJunc);
+    fclose(ICaTotSl);
+    fclose(ICaTotJunc);
+    fclose(Ikr);
+    fclose(Ikp);
+    fclose(IClCa);
+    fclose(IBgCl);
+
+    fclose(inafile);
+    fclose(ICaNa);
+    fclose(INaK);
+    fclose(gkrf);
+    fclose(rkrf);
+    fclose(tauxkr);
+    fclose(xkrf);
+    fclose(xkr1f);
+    fclose(xrssf);
+
+    fclose(ItoFast);
+    fclose(ItoSlow);
+    fclose(Iepi);
+    fclose(Iendo);
+
+    fclose(aki);
+    fclose(bki);
+    fclose(kiss);
+
+    fclose(Dss);
+    fclose(Fss);
+    fclose(Tf);
+    fclose(Td);
+    fclose(icaj);
+    fclose(icas);
+    fclose(inaj);
+    fclose(inas);
+    fclose(ik); */
+}
 int main(int argc, char **argv)
 {
     openFiles();
@@ -409,18 +469,15 @@ int main(int argc, char **argv)
     stateInitialisation();
     bufferInitialisation();
     
-    for (time = 0.0; time <= 1000.0; time = time + timeStep)
+    for (time = 0.0; time <= 10.0; time = time + timeStep)
     {
 
         printf("%e\n",time);
         nernstPotentials();
         if((time >= 99000)&&(f%100 == 0))
         {
-            printf("%e\n",time);
             printState(time, &CurrentState, &IValues);
             printCurrents(time, &IValues);
-            //printBuffers(time, &CurrentBuffersState);
-            //printJs(time, &JValues);
         }
        f++;
         
@@ -430,6 +487,7 @@ int main(int argc, char **argv)
         CurrentState = NextState;
         CurrentBuffersState = NextBuffersState;
     }
+
     closeFiles();
     printf("\ndone\n");
     return 0;

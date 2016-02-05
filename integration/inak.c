@@ -18,6 +18,21 @@
 
 #include "sa.h"
 
+
+REAL inakp(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *I)
+{
+    REAL sigmap, fNaKp;
+
+    sigmap    = (exp(Nao/67.3) - 1.0)/7.0;
+    fNaKp     = 1.0/(1.0 + 0.1245*exp((-0.1*S->E)/RTF) + 0.0365*sigmap*exp((-S->E)/RTF));
+
+    I->INaKJuncp = Fjunc * C->INaKp * fNaKp/(1.0 + pow(KmNaip/S->NaJ, 4))  * Ko/(Ko + KmKo); //TODO: don't sure in this equations
+    I->INaKSlp   = Fsl   * C->INaKp * fNaKp/(1.0 + pow(KmNaip/S->NaSl, 4)) * Ko/(Ko + KmKo); //TODO: don't sure in this equations
+
+    return I->INaKJuncp + I->INaKSlp;
+
+} /** inakp **/
+
 REAL inak(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *I)
 {
     REAL sigma, fNaK;
@@ -25,11 +40,11 @@ REAL inak(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is 
     sigma    = (exp(Nao/67.3) - 1.0)/7.0;
     fNaK     = 1.0/(1.0 + 0.1245*exp((-0.1*S->E)/RTF) + 0.0365*sigma*exp((-S->E)/RTF));
 
-    //I_nak_junc = Fjunc * IbarNaK * fnak*Ko/(1 + pow(KmNaip/Na_j, 4{dimensionless}))/(Ko+KmKo);
     I->INaKJunc = Fjunc * C->INaK * fNaK/(1.0 + pow(KmNaip/S->NaJ, 4))  * Ko/(Ko + KmKo);
-    //I_nak_sl = Fsl*IbarNaK*fnak*Ko/(1{dimensionless}+pow(KmNaip/Na_sl, 4))/(Ko+KmKo);
     I->INaKSl   = Fsl   * C->INaK * fNaK/(1.0 + pow(KmNaip/S->NaSl, 4)) * Ko/(Ko + KmKo);
 
-    return I->INaKJunc + I->INaKSl;
+//TODO: fINaK_P
+    double fINaK_P = 0.0;
+    return (I->INaKJunc + I->INaKSl) * (1 - fINaK_P) + fINaK_P * inakp(S,Sn,ht,C,I);
 
 } /** inak **/

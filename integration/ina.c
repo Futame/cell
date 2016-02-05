@@ -17,6 +17,57 @@
 //     Sep. 14, 2015 by Zoya A. Kiyan
 
 #include "sa.h"
+REAL inap(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *I)
+{
+    REAL        ENaJunc, ENaSl;
+    REAL        mssp, hssp, jssp;
+    REAL        tm,  th,  tj;
+    REAL        ah, bh, aj, bj;
+
+    // m calculation
+    mssp   = pow(1.0/(1.0 + exp(-(56.86 + S->E)/9.03)), 2);
+
+    tm    = 0.1292 * exp(-pow((S->E + 45.79)/15.54, 2)) + 0.06487 * exp(-pow((S->E + 4.823)/51.12, 2));
+    Sn->mp = mssp - (mssp - S->mp) * exp(-ht/tm);
+
+    // h calculation
+    hssp   = pow(1.0/(1.0 + exp((71.55 + S->E)/7.43)), 2);
+    if (S->E < -40.0)
+    {
+        ah = 0.057 * exp(-(S->E + 80)/6.8);
+        bh = 2.7   * exp(0.079 * S->E) + 3.1 * 1E5 * exp(0.3485*S->E);
+    }
+    else
+    {
+        ah = 0;
+        bh = 0.77/(0.13 * (1 + exp(-(S->E + 10.66)/11.1)));
+    }
+    th    = 1.0/(ah + bh);
+    Sn->hp = hssp - (hssp - S->hp) * exp(-ht/th);
+    
+    // j calculation
+    jssp = pow(1.0/(1.0 + exp((S->E + 71.55)/7.43)), 2);
+    if (S->E < -40.0)
+    {
+        aj = (-2.5428 * 1E4 * exp(0.2444 * S->E) - 6.9481 * 1E-6 * exp(-0.04391 * S->E)*(S->E + 37.78))/(1.0 + exp(0.311 * (S->E + 79.23)));
+        bj =  0.02424 * exp(-0.01052 * S->E)/(1.0 + exp(-0.1378 * (S->E + 40.14)));
+    }
+    else
+    {
+        aj = 0;
+        bj = 0.6 * exp(0.057 * S->E)/(1.0 + exp(-0.1 * (S->E + 32)));
+    }
+    tj    = 1.0/(aj + bj);
+    Sn->jp = jssp - (jssp - S->jp) * exp(-ht/tj);
+    
+    // Fast Na Current Calculation in the Junctional Cleft and the Subsarcolemmal Space
+    I->INaJuncp = Fjunc * C->GNap * pow(S->mp, 3) * S->h * S->j * (S->E - C->ENaJunc);
+    I->INaSlp   = Fsl   * C->GNap * pow(S->mp, 3) * S->h * S->j * (S->E - C->ENaSl);
+
+    return I->INaJunc + I->INaSl;
+} /** inap **/
+
+
 
 REAL ina(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *I)
 {
@@ -25,53 +76,10 @@ REAL ina(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *
     REAL        mss, hss, jss;
     REAL        tm,  th,  tj;
     REAL        ah, bh, aj, bj;
-/*
- *
-             ah = sel
-            case V_m >= -40{mV}:
-                0{dimensionless};
-            otherwise:
-                0.057{dimensionless}*exp(-(V_m+80{mV})/6.8{mV});
-        endsel;
 
-        bh = sel
-            case V_m >= -40{mV}:
-                0.77{dimensionless}/(0.13{dimensionless}*(1{dimensionless}+exp(-(V_m+10.66{mV})/11.1{mV})));
-            otherwise:
-                2.7{dimensionless}*exp(0.079{per_mV}*V_m)+3.1e5{dimensionless}*exp(0.3485{per_mV}*V_m);
-        endsel;
-
-        tauh = 1{msec}/(ah+bh);
-        hss = 1{dimensionless}/sqr(1{dimensionless}+exp((V_m+71.55{mV})/7.43{mV}));
-
-        aj = sel
-            case V_m >= -40{mV}:
-                0{dimensionless};
-            otherwise:
-                (-2.5428e4{per_mV}*exp(0.2444{per_mV}*V_m)-6.948e-6{per_mV}*exp(-0.04391{per_mV}*V_m))*(V_m+37.78{mV})/(1{dimensionless}+exp(0.311{per_mV}*(V_m+79.23{mV})));
-        endsel;
-
-        bj = sel
-            case V_m >= -40{mV}:
-                0.6{dimensionless}*exp(0.057{per_mV}*V_m)/(1{dimensionless}+exp(-0.1{per_mV}*(V_m+32{mV})));
-            otherwise:
-                0.02424{dimensionless}*exp(-0.01052{per_mV}*V_m)/(1{dimensionless}+exp(-0.1378{per_mV}*(V_m+40.14{mV})));
-        endsel;
-
-        tauj = 1{msec}/(aj+bj);
-        jss = 1{dimensionless}/sqr(1{dimensionless}+exp((V_m+71.55{mV})/7.43{mV}));
-        ode(m, time) = (mss-m)/taum;
-        ode(h, time) = (hss-h)/tauh;
-        ode(j, time) = (jss-j)/tauj;
-        I_Na_junc = Fjunc*GNa*pow(m, 3{dimensionless})*h*j*(V_m-ena_junc);
-        I_Na_sl = Fsl*GNa*pow(m, 3{dimensionless})*h*j*(V_m-ena_sl);
-        I_Na = I_Na_junc+I_Na_sl;
- */
     // m calculation
-    //mss = 1 / sqr(1 + exp(-(56.86 + V_m)/9.03));
     mss   = pow(1.0/(1.0 + exp(-(56.86 + S->E)/9.03)), 2);
 
-    //taum = 0.1292 * exp(-sqr((V_m+45.79)/15.54{mV}))+0.06487 * exp(-sqr((V_m-4.823{mV})/51.12{mV}));
     tm    = 0.1292 * exp(-pow((S->E + 45.79)/15.54, 2)) + 0.06487 * exp(-pow((S->E + 4.823)/51.12, 2));
     Sn->m = mss - (mss - S->m) * exp(-ht/tm);
 
@@ -94,16 +102,12 @@ REAL ina(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *
     jss = pow(1.0/(1.0 + exp((S->E + 71.55)/7.43)), 2);
     if (S->E < -40.0)
     {
-        //(     -2.5428e4   *     exp(0.2444 * V_m) - 6.948e-6  *   exp(-0.04391 * V_m))*(V_m + 37.78)/(1 + exp(0.311 * (V_m + 79.23)));
         aj = (-2.5428 * 1E4 * exp(0.2444 * S->E) - 6.9481 * 1E-6 * exp(-0.04391 * S->E)*(S->E + 37.78))/(1.0 + exp(0.311 * (S->E + 79.23)));
-  //                0.02424 *exp(-0.01052{per_mV}*V_m)/(1 +exp(-0.1378{per_mV}*(V_m+40.14{mV})));
         bj =  0.02424 * exp(-0.01052 * S->E)/(1.0 + exp(-0.1378 * (S->E + 40.14)));
     }
     else
     {
         aj = 0;
-//        0.6{dimensionless}*exp(0.057{per_mV}*V_m)/(1{dimensionless}+exp(-0.1{per_mV}*(V_m+32{mV})));
-
         bj = 0.6 * exp(0.057 * S->E)/(1.0 + exp(-0.1 * (S->E + 32)));
     }
     tj    = 1.0/(aj + bj);
@@ -113,5 +117,9 @@ REAL ina(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *
     I->INaJunc = Fjunc * C->GNa * pow(S->m, 3) * S->h * S->j * (S->E - C->ENaJunc);
     I->INaSl   = Fsl   * C->GNa * pow(S->m, 3) * S->h * S->j * (S->E - C->ENaSl);
 
-    return I->INaJunc + I->INaSl;
+	inap(S,Sn,ht,C,I);
+
+	//TODO: need fINa_P
+    double fINa_P = 0.0;
+    return (I->INaJunc + I->INaSl)*(1-fINa_P) + fINa_P * (I->INaJuncp + I->INaSlp);
 } /** ina **/

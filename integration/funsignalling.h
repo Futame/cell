@@ -31,7 +31,7 @@ struct Concentration {
 
     double Inhib1_P_CYT;
 
-    double fLCC_P, fIKS_P, fPLB_P, fTnI_P, fINa_P, fINaK_P, fRyR_P, fIKur_P;
+    double fLCC_P, fIKS_P /* */, fPLB_P, fTnI_P, fINa_P/* */, fINaK_P/* */, fRyR_P, fIKur_P; //IKur == ikr??? LCC == ???
 
     double Rb2_pkap_tot_CAV, Rb2_pkap_tot_ECAV;
     double Rb2_grkp_tot_CAV, Rb2_grkp_tot_ECAV;

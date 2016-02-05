@@ -2,52 +2,49 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/beta.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/cabuf.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/caconc.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/elphys.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/elphys.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/settings.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ito.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/signalling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/settings.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/signalling.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cabuf.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/funsignalling.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/funsignalling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ibg.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ical.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/main.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/iclca.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/iki.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ikp.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ikr.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/srflux.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/funsignalling.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/caconc.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inak.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/naconc.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/elphys.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ipk.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/iks.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ina.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/inak.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/incx.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ipk.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ito.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/main.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/naconc.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ikp.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ikr.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ibg.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sa.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/settings.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/settings.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/signalling.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/signalling.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/srflux.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ical.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/incx.c" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/objc" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/ssp" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/objc" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/ssp" />
-          <root url="file://C:/Program Files/mingw-w64/x86_64-4.9.2-posix-seh-rt_v3-rev1/mingw64/x86_64-w64-mingw32/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
         </SOURCES>
       </library>
     </orderEntry>

@@ -51,7 +51,10 @@ struct State
 {
     REAL E;                                     // Potential
     REAL m, h, j;                                // Activation and Inactivation Components for Fast Na Current
+	REAL mp, hp, jp;							//phosph.
     REAL xkr, xks;                              // Components of Rapidly Activating K Current
+	//TODO: initial value
+	REAL xkrp, xksp;							//for phosphorylated channels
     REAL xtos, ytos, xtof, ytof;                // Slow and Fast Components for Transient Outward K Current
     REAL d, f;                                  //
     REAL fCaBJunc, fCaBSl;                      //
@@ -61,11 +64,14 @@ struct State
     REAL NaBj, NaBSl;                           // Na Buffers Concentrations
 } CurrentState, NextState;
 
+
 struct Cpar
 {
     REAL GNa, GNaB, GClB, GCaB, Gkp, GksJunc, GksSl, GtoSlow, GtoFast, GClCa;   // Conductivities
+	REAL GksJuncp, GksSlp, GNap;														//TODO: value (for phosphorylated channels)
     REAL ENaJunc, ENaSl, ECaJunc, ECaSl, EKsJunc, EKsSl, EKs;                   // Nernst Potentials in the Junctional Cleft and the Subsarcolemmal Space
     REAL INaK;                                                                  // Current Amplitude in Na/K Pump (const, not equal to INaKJunc + INaKSl)
+	REAL INaKp;   //TODO: inital value
     REAL INCX;                                                                  // Na/Ca Exchanger Current Amplitude
     REAL IPMCA;                                                                 // Sarcolemmal Ca Pump Current Amplitude
 } ModelParameters;
@@ -87,6 +93,7 @@ struct Is
     REAL Ikr, Iks;
     REAL Iki, Ikp;
     REAL IClCa, IBgCl;
+	REAL Iks_ph, Iks_tot, INaJuncp, INaSlp, INaKJuncp, INaKSlp;					//TODO: initial value
 } IValues;
 
 struct Js
