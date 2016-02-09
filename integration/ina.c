@@ -25,46 +25,51 @@ REAL inap(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is 
     REAL        ah, bh, aj, bj;
 
     // m calculation
-    mssp   = pow(1.0/(1.0 + exp(-(56.86 + S->E)/9.03)), 2);
+    double dV_activation = -5.9;
+    double Va = S->E - dV_activation; //TODO: may be there are a problem with sign
+    mssp   = pow(1.0/(1.0 + exp(-(56.86 + Va)/9.03)), 2);
 
-    tm    = 0.1292 * exp(-pow((S->E + 45.79)/15.54, 2)) + 0.06487 * exp(-pow((S->E + 4.823)/51.12, 2));
+    tm    = 0.1292 * exp(-pow((Va + 45.79)/15.54, 2)) + 0.06487 * exp(-pow((Va + 4.823)/51.12, 2));
     Sn->mp = mssp - (mssp - S->mp) * exp(-ht/tm);
 
+    double dV_inactivation = -8;
+    double Vi = S->E - dV_inactivation;
     // h calculation
-    hssp   = pow(1.0/(1.0 + exp((71.55 + S->E)/7.43)), 2);
-    if (S->E < -40.0)
+    hssp   = pow(1.0/(1.0 + exp((71.55 + Vi)/7.43)), 2);
+    if (Vi < -40.0)
     {
-        ah = 0.057 * exp(-(S->E + 80)/6.8);
-        bh = 2.7   * exp(0.079 * S->E) + 3.1 * 1E5 * exp(0.3485*S->E);
+        ah = 0.057 * exp(-(Vi + 80)/6.8);
+        bh = 2.7   * exp(0.079 * Vi) + 3.1 * 1E5 * exp(0.3485*Vi);
     }
     else
     {
         ah = 0;
-        bh = 0.77/(0.13 * (1 + exp(-(S->E + 10.66)/11.1)));
+        bh = 0.77/(0.13 * (1 + exp(-(Vi + 10.66)/11.1)));
     }
     th    = 1.0/(ah + bh);
     Sn->hp = hssp - (hssp - S->hp) * exp(-ht/th);
     
     // j calculation
-    jssp = pow(1.0/(1.0 + exp((S->E + 71.55)/7.43)), 2);
-    if (S->E < -40.0)
+    jssp = pow(1.0/(1.0 + exp((Vi + 71.55)/7.43)), 2);
+    if (Vi < -40.0)
     {
-        aj = (-2.5428 * 1E4 * exp(0.2444 * S->E) - 6.9481 * 1E-6 * exp(-0.04391 * S->E)*(S->E + 37.78))/(1.0 + exp(0.311 * (S->E + 79.23)));
-        bj =  0.02424 * exp(-0.01052 * S->E)/(1.0 + exp(-0.1378 * (S->E + 40.14)));
+        aj = (-2.5428 * 1E4 * exp(0.2444 * Vi) - 6.9481 * 1E-6 * exp(-0.04391 * Vi)*(Vi + 37.78))/(1.0 + exp(0.311 * (Vi
+                                                                                                          + 79.23)));
+        bj =  0.02424 * exp(-0.01052 * Vi)/(1.0 + exp(-0.1378 * (Vi + 40.14)));
     }
     else
     {
         aj = 0;
-        bj = 0.6 * exp(0.057 * S->E)/(1.0 + exp(-0.1 * (S->E + 32)));
+        bj = 0.6 * exp(0.057 * Vi)/(1.0 + exp(-0.1 * (Vi + 32)));
     }
     tj    = 1.0/(aj + bj);
     Sn->jp = jssp - (jssp - S->jp) * exp(-ht/tj);
     
     // Fast Na Current Calculation in the Junctional Cleft and the Subsarcolemmal Space
-    I->INaJuncp = Fjunc * C->GNap * pow(S->mp, 3) * S->h * S->j * (S->E - C->ENaJunc);
-    I->INaSlp   = Fsl   * C->GNap * pow(S->mp, 3) * S->h * S->j * (S->E - C->ENaSl);
+    I->INaJuncp = Fjunc * C->GNap * pow(S->mp, 3) * S->hp * S->jp * (S->E - C->ENaJunc);
+    I->INaSlp   = Fsl   * C->GNap * pow(S->mp, 3) *  S->hp * S->jp * (S->E - C->ENaSl);
 
-    return I->INaJunc + I->INaSl;
+    return I->INaJuncp + I->INaSlp;
 } /** inap **/
 
 
