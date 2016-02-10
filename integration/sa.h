@@ -56,7 +56,7 @@ struct State
 	//TODO: initial value
 	REAL xkrp, xksp;							//for phosphorylated channels
     REAL xtos, ytos, xtof, ytof;                // Slow and Fast Components for Transient Outward K Current
-    REAL d, f;                                  //
+    REAL d, f, dp, fp;                                  //
     REAL fCaBJunc, fCaBSl;                      //
     REAL Csqnb;                                 // SR Calcium Buffer
     REAL RyRr, RyRo, RyRi;                      //
@@ -83,7 +83,7 @@ struct Is
     REAL INaJunc, INaSl;                                                        // Fast Na Currents
     REAL INaBkJunc, INaBkSl;                                                    // Background Na Currents
     REAL ICaBkJunc, ICaBkSl;                                                    // Background Ca Currents
-    REAL ICaJunc, ICaSl;                                                        // L-type Calcium Currents
+    REAL ICaJunc, ICaSl, ICaJuncp, ICaSlp;                                                        // L-type Calcium Currents
     REAL ICaK, ICaNaJunc, ICaNaSl;                                              // Ca-K, Ca-Na Currents
     REAL IpCaJunc, IpCaSl;                                                      // Sarcolemmal Ca Pump Currents
     REAL IncxJunc, IncxSl;                                                      // Na/Ca Exchanger Currents

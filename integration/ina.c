@@ -19,7 +19,6 @@
 #include "sa.h"
 REAL inap(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is *I)
 {
-    REAL        ENaJunc, ENaSl;
     REAL        mssp, hssp, jssp;
     REAL        tm,  th,  tj;
     REAL        ah, bh, aj, bj;
@@ -66,9 +65,9 @@ REAL inap(struct State *S, struct State *Sn, REAL ht, struct Cpar *C, struct Is 
     Sn->jp = jssp - (jssp - S->jp) * exp(-ht/tj);
     
     // Fast Na Current Calculation in the Junctional Cleft and the Subsarcolemmal Space
-    I->INaJuncp = Fjunc * C->GNap * pow(S->mp, 3) * S->hp * S->jp * (S->E - C->ENaJunc);
-    I->INaSlp   = Fsl   * C->GNap * pow(S->mp, 3) *  S->hp * S->jp * (S->E - C->ENaSl);
-
+    I->INaJuncp = Fjunc * C->GNa * pow(S->mp, 3) * S->hp * S->jp * (S->E - C->ENaJunc);
+    I->INaSlp   = Fsl   * C->GNa * pow(S->mp, 3) *  S->hp * S->jp * (S->E - C->ENaSl); //TODO: C->GNa for
+                                                                                       // phosphorylated channels
     return I->INaJuncp + I->INaSlp;
 } /** inap **/
 

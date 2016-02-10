@@ -66,6 +66,7 @@ void nernstPotentials()
 {
     ModelParameters.ENaJunc = RTF * log(Nao/CurrentState.NaJ);
     ModelParameters.ENaSl 	= RTF * log(Nao/CurrentState.NaSl);
+    printf("%e %e\n", ModelParameters.ENaJunc, ModelParameters.ENaSl);
     ModelParameters.ECaJunc = RTF/ 2.0 * log(Cao/CurrentState.CaJ);
     ModelParameters.ECaSl   = RTF/ 2.0 * log(Cao/CurrentState.CaSl);
     ModelParameters.EKsJunc = RTF * log((Ko + pNaK * Nao)/(Ki + pNaK * CurrentState.NaJ));
@@ -232,7 +233,6 @@ void printJs(REAL time, struct Js *J)
 }
 
 void openFiles(){
-
     Iks = fopen("./tests/Iks.txt","w");
     Ikl = fopen("./tests/Ikl.txt","w");
     icalfile = fopen("./tests/IcaL.txt","w");
@@ -378,6 +378,7 @@ void closeFiles(){
 */
 
 //TODO: process finished with exit code 139, when I try "fclose(smth)"
+
 void closeFiles(){
 /*    fclose(Iks);
     fclose(Ikl);
@@ -457,11 +458,14 @@ void closeFiles(){
     fclose(inas);
     fclose(ik); */
 }
-int main(int argc, char **argv)
-{
+
+
+int main(){
     openFiles();
+    FILE *inap;
+    inap = fopen("./tests/INaP.txt","w");
     printf("files are opened\n");
-    REAL time = 0.0;
+    REAL time;
     int  f = 0;
     REAL timeStep = 5e-3;
     REAL Itotal;
@@ -469,10 +473,10 @@ int main(int argc, char **argv)
     stateInitialisation();
     bufferInitialisation();
     
-    for (time = 0.0; time <= 10.0; time = time + timeStep)
+    for (time = 0.0; time <= 1000.0; time = time + timeStep)
     {
 
-        printf("%e\n",time);
+        //printf("%e\n",time);
         nernstPotentials();
         if((time >= 99000)&&(f%100 == 0))
         {
@@ -484,11 +488,13 @@ int main(int argc, char **argv)
         Itotal = totalCurrent(time,&CurrentState, &NextState, timeStep, &ModelParameters, &IValues, &JValues, &CurrentBuffersState, &NextBuffersState);
 
         NextState.E = (((int) time) % 1000 < 5.0)? CurrentState.E - (Itotal - 10.0)*timeStep : CurrentState.E - Itotal*timeStep;
+        fprintf(inap, "%e %e\n",time, IValues.INaJuncp + IValues.INaSlp);
         CurrentState = NextState;
         CurrentBuffersState = NextBuffersState;
     }
 
     closeFiles();
+    fclose(inap);
     printf("\ndone\n");
     return 0;
 }
